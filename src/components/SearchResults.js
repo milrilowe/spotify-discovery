@@ -9,9 +9,14 @@ const SearchResults = ({ searchResults, onClick }) => {
     let results;
 
     if (searchResults) {
-        results = searchResults.map(track => {
-            return track;
-        })
+        console.log({searchResults})
+        try {
+            results = searchResults.map(track => {
+                return track;
+            })
+        } catch {
+            return
+        }
 
         return (
             <Container className="p-0" style = {{position: "relative"}}>

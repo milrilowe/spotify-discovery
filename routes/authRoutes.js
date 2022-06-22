@@ -12,6 +12,7 @@ const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
 const CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET;
 const STATE_KEY = 'spotify_auth_state';
 const BASE_URL = 'https://api.spotify.com/v1/';
+const HOME = process.env.HOME;
 
 /**
  * Generates a random string containing numbers and letters
@@ -70,7 +71,7 @@ router.get('/callback', function(req, res) {
     const storedState = req.cookies ? req.cookies[STATE_KEY] : null;
 
     if (state === null || state !== storedState) {
-        res.redirect('http://localhost:3001/?' +
+        res.redirect(`'http://localhost:3001/?'` +
           querystring.stringify({
             error: 'state_mismatch'
           }));
@@ -135,7 +136,6 @@ router.get('/refresh_token', function(req, res) {
       }
     });
 });
-
 
 /**
  * 

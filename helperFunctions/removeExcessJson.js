@@ -1,7 +1,6 @@
 const removeExcessJson =  (data) => {
   
-    let json = data.tracks.map(track => {
-
+    const json = (track) => {
         const largestAlbumImage = track.album.images.reduce(
             (largest, image) => {
             if (image.height > largest.height) return image
@@ -29,9 +28,19 @@ const removeExcessJson =  (data) => {
         }
 
         return song;
-    })
+    }
 
-    return json;
+    let trimmedJson;
+
+    if(data.tracks.items) {
+        trimmedJson = data.tracks.items.map((track) => json(track));
+    } else {
+        trimmedJson = data.tracks.map((track) => json(track));
+    }
+
+    console.log(trimmedJson)
+
+    return trimmedJson;
 }
 
 module.exports = removeExcessJson

@@ -13,8 +13,8 @@ const Recommendations = ({ recommendations, access_token, onClick }) => {
         })
 
         return (
-                <Container className = "mt-3" style = {{position: "relative"}} >
-                    <Card style ={{maxHeight: "625px", overflow:"auto"}}>
+                <Container >
+                    <Card className = "mt-3" style ={{maxHeight: "625px", overflow:"auto", position: "relative"}}>
                         {recommendations?.map((track) => (
                                 <Track
                                     track = {track} 
@@ -23,7 +23,10 @@ const Recommendations = ({ recommendations, access_token, onClick }) => {
                                         player.play()})}
                                     unHover = {() => {
                                         player.src = '';}}
-                                    onClick = {() => onClick(track)}
+                                    onClick = {() => {
+                                        player.src = '';
+                                        onClick(track);
+                                    }}
                                 />
                         ))}
                     </Card>
