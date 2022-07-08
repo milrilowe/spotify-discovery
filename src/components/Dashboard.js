@@ -55,15 +55,16 @@ const Dashboard = ( { access_token, refresh_token }) => {
     }, [query]);
 
     return (
-        <div className = "dashboard">
+        <div className = "dashboard" onclick = {null}>
 
             <Container>
                 <Searchbar onSearch = {onSearch}/>
                 <SearchResults searchResults = {searchResults} onClick = {onClick}/>
             </Container>
-<Container>
-                <Recommendations recommendations = {recommendations} onClick = {onClick} />
 
+            <Container>
+
+                <Recommendations recommendations = {recommendations} onClick = {onClick} />
 
                 <Container>
                     <CurrentSong currentSong = {currentSong} />
@@ -72,7 +73,8 @@ const Dashboard = ( { access_token, refresh_token }) => {
                 <Container className = "mb-2" align="center" style={{position:"absolute", bottom:"0"}}>
                     <WebPlayback access_token = {access_token} currentSong = {currentSong} style/>
                 </Container>
-                </Container>
+
+            </Container>
         </div>
     )
 }

@@ -14,7 +14,7 @@ const refreshToken = async  (refresh_token) => {
         const refresh = await response.json();
         return refresh.access_token;
     } else {
-        console.log(`Didn't work`)
+        console.log(response.status)
     }
 
 

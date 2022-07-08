@@ -180,8 +180,6 @@ router.post("/search/:token", async (req, res) => {
   
   const data = await response.json();
 
-  console.log(data)
-
   response = await searchByIds(data, access_token)
 
   res.send(response)

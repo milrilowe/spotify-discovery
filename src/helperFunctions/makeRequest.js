@@ -14,10 +14,8 @@ const makeRequest = async  (method, url, query) => {
         const data = await response.json();
         return data;
     } else if (response.status === 401) {
-        //RefreshToken
-        return
+        return 401;
     } else {
-        console.log(response);
         return
     }
 
