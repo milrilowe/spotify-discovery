@@ -1,3 +1,5 @@
+import searchTracks from "../helperFunctions/searchTracks.js"
+import recommendedTracks from "../helperFunctions/recommendedTracks.js"
 import Searchbar from './Searchbar';
 import SearchResults from './SearchResults'
 import CurrentSong from './CurrentSong'
@@ -5,10 +7,6 @@ import WebPlayback from './WebPlayback'
 import Recommendations from './Recommendations'
 import { useState, useEffect } from 'react';
 import { Container } from 'react-bootstrap';
-
-
-const searchTracks = require("../helperFunctions/searchTracks.js");
-const recommendedTracks = require("../helperFunctions/recommendedTracks.js");
 
 const Dashboard = ( { access_token, refresh_token }) => {
     const [query, setQuery] = useState();
