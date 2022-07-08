@@ -71,7 +71,7 @@ router.get('/callback', function(req, res) {
     const storedState = req.cookies ? req.cookies[STATE_KEY] : null;
 
     if (state === null || state !== storedState) {
-        res.redirect(`'http://localhost:3001/?'` +
+        res.redirect(`https://spotify-discover-music.herokuapp.com/?` +
           querystring.stringify({
             error: 'state_mismatch'
           }));
@@ -96,13 +96,13 @@ router.get('/callback', function(req, res) {
         var access_token = body.access_token,
             refresh_token = body.refresh_token;
 
-        res.redirect('http://localhost:3001/?' +
+        res.redirect('https://spotify-discover-music.herokuapp.com/?' +
             querystring.stringify({
             access_token: access_token,
             refresh_token: refresh_token
             }));
         } else {
-        res.redirect('http://localhost:3001/?' +
+        res.redirect('https://spotify-discover-music.herokuapp.com/?' +
             querystring.stringify({
             error: 'invalid_token'
             }));
