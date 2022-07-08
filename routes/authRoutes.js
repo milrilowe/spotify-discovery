@@ -7,12 +7,11 @@ const fetch = require('node-fetch');
 const removeExcessJson = require("../helperFunctions/removeExcessJson.js");
 const searchByIds = require("../helperFunctions/searchByIds.js");
 
-const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
-const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
-const CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET;
+const CLIENT_ID = process.env.CLIENT_ID;
+const REDIRECT_URI = process.env.REDIRECT_URI;
+const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const STATE_KEY = 'spotify_auth_state';
 const BASE_URL = 'https://api.spotify.com/v1/';
-const HOME = process.env.HOME;
 
 /**
  * Generates a random string containing numbers and letters
