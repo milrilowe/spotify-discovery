@@ -4,7 +4,7 @@ import Track from './Track'
 
 
 
-const Recommendations = ({ recommendations, access_token, onClick }) => {
+const Recommendations = ({ recommendations, onClick }) => {
     
     let player = new Audio('');
     if (recommendations) {
