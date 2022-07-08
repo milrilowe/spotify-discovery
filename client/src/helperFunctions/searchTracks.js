@@ -1,5 +1,5 @@
-const makeRequest = require("./makeRequest.js");
-const refreshToken = require("./refreshToken.js");
+import makeRequest  from "./makeRequest.js"
+import refreshToken  from "./refreshToken.js"
 
 const searchTracks = async (query, access_token) => {
     let url = `https://spotify-discover-music.herokuapp.com/search/${access_token}`;
@@ -7,4 +7,4 @@ const searchTracks = async (query, access_token) => {
     return data;
 }
 
-module.exports = searchTracks
+export default searchTracks

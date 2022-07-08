@@ -1,5 +1,5 @@
-const makeRequest = require("./makeRequest.js");
-const refreshToken = require("./refreshToken.js");
+import makeRequest from "./makeRequest.js"
+import refreshToken from "./refreshToken.js"
 
 const recommendedTracks = async (currentSong, access_token) => {
 
@@ -9,4 +9,4 @@ const recommendedTracks = async (currentSong, access_token) => {
     
 }
 
-module.exports = recommendedTracks
+export default recommendedTracks

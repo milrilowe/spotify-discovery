@@ -22,4 +22,4 @@ const makeRequest = async  (method, url, query) => {
 
 }
 
-module.exports = makeRequest
+export default makeRequest

@@ -20,4 +20,4 @@ const refreshToken = async  (refresh_token) => {
 
 }
 
-module.exports = refreshToken
+export default refreshToken
