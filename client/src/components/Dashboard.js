@@ -68,9 +68,9 @@ const Dashboard = ( { access_token, refresh_token }) => {
                     <CurrentSong currentSong = {currentSong} />
                 </Container>
 
-                <Container className = "mb-2" align="center" style={{position:"absolute", bottom:"0"}}>
+                {/* <Container className = "mb-2" align="center" style={{position:"absolute", bottom:"0"}}>
                     <WebPlayback access_token = {access_token} currentSong = {currentSong} style/>
-                </Container>
+                </Container> */}
 
             </Container>
         </div>
