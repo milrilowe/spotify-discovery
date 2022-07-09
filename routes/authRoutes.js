@@ -8,8 +8,9 @@ const searchByIds = require("../helperFunctions/searchByIds.js");
 const CLIENT_ID = process.env.CLIENT_ID;
 const REDIRECT_URI = process.env.REDIRECT_URI;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
+const BASE_URL = process.env.BASE_URL;
 const STATE_KEY = 'spotify_auth_state';
-const BASE_URL = 'https://api.spotify.com/v1/';
+const SPOTIFY_BASE = 'https://api.spotify.com/v1/';
 
 /**
  * Generates a random string containing numbers and letters
@@ -68,7 +69,7 @@ router.get('/callback', function(req, res) {
     const storedState = req.cookies ? req.cookies[STATE_KEY] : null;
 
     if (state === null || state !== storedState) {
-        res.redirect(`https://spotify-discover-music.herokuapp.com/?` +
+        res.redirect(`${BASE_URL}?` +
           querystring.stringify({
             error: 'state_mismatch'
           }));
@@ -93,13 +94,13 @@ router.get('/callback', function(req, res) {
         var access_token = body.access_token,
             refresh_token = body.refresh_token;
 
-        res.redirect('https://spotify-discover-music.herokuapp.com/?' +
+        res.redirect(`${BASE_URL}?` +
             querystring.stringify({
             access_token: access_token,
             refresh_token: refresh_token
             }));
         } else {
-        res.redirect('https://spotify-discover-music.herokuapp.com/?' +
+        res.redirect(`${BASE_URL}?` +
             querystring.stringify({
             error: 'invalid_token'
             }));
@@ -120,7 +121,7 @@ router.get('/callback', function(req, res) {
    */
   const query = req.body.query.split(" ").join("%20");
 
-  let response = await fetch(`${BASE_URL}search?type=track&q=${query}`, {
+  let response = await fetch(`${SPOTIFY_BASE}search?type=track&q=${query}`, {
     headers: {
       "Authorization": `Bearer ${access_token}`
     }
@@ -174,7 +175,7 @@ router.get('/refresh_token', function(req, res) {
   const access_token = req.params.token;
   const id = req.body.query;
 
-  let response = await fetch(`${BASE_URL}recommendations?seed_tracks=${id}`, {
+  let response = await fetch(`${SPOTIFY_BASE}recommendations?seed_tracks=${id}`, {
     headers: {
         "Authorization": `Bearer ${access_token}`
     }

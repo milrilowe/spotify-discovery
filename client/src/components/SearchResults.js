@@ -9,7 +9,6 @@ const SearchResults = ({ searchResults, onClick }) => {
     let results;
 
     if (searchResults) {
-        console.log({searchResults})
         try {
             results = searchResults.map(track => {
                 return track;

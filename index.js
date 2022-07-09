@@ -17,7 +17,7 @@ const AuthRoutes = require("./routes/authRoutes.js");
 app.use("/", AuthRoutes);
 
 app.use(express.static(__dirname + "/public"));
-//
+
 app.listen(PORT, () => {
     console.log(`listening on port ${PORT}`);
 })

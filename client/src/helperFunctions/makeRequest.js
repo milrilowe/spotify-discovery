@@ -16,7 +16,7 @@ const makeRequest = async  (method, url, query) => {
     } else if (response.status === 401) {
         return 401;
     } else {
-        return
+        return response.status;
     }
 
 

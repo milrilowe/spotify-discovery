@@ -6,7 +6,7 @@ const Login = () => {
           className="d-flex justify-content-center align-items-center"
           style={{ minHeight: "100vh" }}
         >
-          <a className="btn btn-success btn-lg" href={'https://spotify-discover-music.herokuapp.com/login'}>
+          <a className="btn btn-success btn-lg" href={`${process.env.BASE_URL}login`}>
             Login With Spotify
           </a>
         </Container>
