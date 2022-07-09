@@ -113,6 +113,33 @@ router.get('/callback', function(req, res) {
 /**
  * 
  */
+ router.post("/search/:token", async (req, res) => {
+
+  const access_token = req.params.token
+
+  /**
+   * Take the search query and use spotify's search endpoint
+   */
+  const query = req.body.query.split(" ").join("%20");
+
+  let response = await fetch(`${BASE_URL}search?type=track&q=${query}`, {
+    headers: {
+      "Authorization": `Bearer ${access_token}`
+    }
+  })
+
+  if(response.statusCode == 200) {
+    let data = await response.json();
+    response = await searchByIds(data, access_token)
+    res.send(response);
+  } else {
+    console.log(res.statusCode);
+  }
+});
+
+/**
+ * 
+ */
 router.get('/refresh_token', function(req, res) {
     // requesting access token from refresh token
     const refresh_token = req.query.refresh_token;
@@ -136,35 +163,7 @@ router.get('/refresh_token', function(req, res) {
     });
 });
 
-/**
- * 
- */
-router.post("/search/:token", async (req, res) => {
 
-  const access_token = req.params.token
-
-
-  /**
-   * Take the search query and use spotify's search endpoint
-   */
-  const query = req.body.query.split(" ").join("%20");
-
-  let response = await fetch(`${BASE_URL}search?type=track&q=${query}`, {
-    headers: {
-      "Authorization": `Bearer ${access_token}`
-    }
-  })
-
-  if(res.status == 200) {
-    let data = await response.json();
-    response = await searchByIds(data, access_token)
-  } else {
-    response = res.status;
-  }
-
-
-  res.send(response);
-});
 
 /**
  * 
@@ -183,7 +182,12 @@ router.post("/search/:token", async (req, res) => {
 
   response = await searchByIds(data, access_token)
 
-  res.send(response)
+  if(response.status == 200) {
+    res.send(response)
+  }
+
+
+  
   // res.send(removeExcessJson(data));
 
 });
