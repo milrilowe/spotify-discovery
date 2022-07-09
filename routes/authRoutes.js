@@ -154,12 +154,14 @@ router.post("/search/:token", async (req, res) => {
       "Authorization": `Bearer ${access_token}`
     }
   })
-    
-  let data = await response.json(); //do we need await?
 
-  //Helper function removes unnecessary info to send to client
+  if(res.status == 200) {
+    let data = await response.json();
+    response = await searchByIds(data, access_token)
+  } else {
+    response = res.status;
+  }
 
-  response = await searchByIds(data, access_token)
 
   res.send(response);
 });

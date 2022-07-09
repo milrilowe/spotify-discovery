@@ -42,7 +42,7 @@ const Dashboard = ( { access_token, refresh_token }) => {
 
         const search = async () => {
             let result = !query ? null : await searchTracks(query, access_token)
-            if(cancel) return;
+            //if(cancel) return;
             setSearchResults(result);
         }
 
