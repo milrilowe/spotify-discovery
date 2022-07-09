@@ -127,9 +127,12 @@ router.get('/callback', function(req, res) {
   })
 
   if(res.statusCode == 200) {
+    console.log(response);
     let data = await response.json();
     response = await searchByIds(data, access_token)
-    res.send(response);
+    if(response.statusCode == 200) {
+      res.send(response);
+    }
   } else {
     console.log(res.statusCode);
   }
