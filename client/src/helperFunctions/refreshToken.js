@@ -8,7 +8,7 @@ const refreshToken = async  (refresh_token) => {
         body:  `{"query":"${refresh_token}"}`
     };
 
-    let response = await fetch(`${process.env.BASE_URL}refresh_token`, options);
+    let response = await fetch(`./refresh_token`, options);
 
     if(response.status === 200) {
         const refresh = await response.json();
