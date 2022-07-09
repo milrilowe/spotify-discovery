@@ -126,15 +126,16 @@ router.get('/callback', function(req, res) {
     }
   })
 
-  if(res.statusCode == 200) {
-    console.log(response);
+  console.log(response.status);
+
+  if(response.statusCode == 200) {
+    
     let data = await response.json();
     response = await searchByIds(data, access_token)
-    if(response.statusCode == 200) {
-      res.send(response);
-    }
+    res.send(response);
+
   } else {
-    console.log(res.statusCode);
+    console.log(response.statusCode);
   }
 });
 
@@ -179,12 +180,12 @@ router.get('/refresh_token', function(req, res) {
     }
   });
   
-  if(res.statusCode == 200) {
+  if(response.statusCode == 200) {
     const data = await response.json();
     response = await searchByIds(data, access_token)
     res.send(response);
   } else {
-    console.log(res.statusCode);
+    console.log(response.statusCode);
   }
 });
 
