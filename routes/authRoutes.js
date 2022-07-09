@@ -128,14 +128,14 @@ router.get('/callback', function(req, res) {
 
   console.log(response.status);
 
-  if(response.statusCode == 200) {
+  if(response.status == 200) {
     
     let data = await response.json();
     response = await searchByIds(data, access_token)
     res.send(response);
 
   } else {
-    console.log(response.statusCode);
+    console.log(response.status);
   }
 });
 
@@ -180,12 +180,12 @@ router.get('/refresh_token', function(req, res) {
     }
   });
   
-  if(response.statusCode == 200) {
+  if(response.status == 200) {
     const data = await response.json();
     response = await searchByIds(data, access_token)
     res.send(response);
   } else {
-    console.log(response.statusCode);
+    console.log(response.status);
   }
 });
 
