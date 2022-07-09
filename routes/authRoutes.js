@@ -3,8 +3,6 @@ const router = express.Router();
 const request = require('request');
 const querystring = require('querystring');
 const fetch = require('node-fetch');
-
-const removeExcessJson = require("../helperFunctions/removeExcessJson.js");
 const searchByIds = require("../helperFunctions/searchByIds.js");
 
 const CLIENT_ID = process.env.CLIENT_ID;
@@ -178,18 +176,13 @@ router.get('/refresh_token', function(req, res) {
     }
   });
   
-  const data = await response.json();
-
-  response = await searchByIds(data, access_token)
-
-  if(response.status == 200) {
-    res.send(response)
+  if(res.statusCode == 200) {
+    const data = await response.json();
+    response = await searchByIds(data, access_token)
+    res.send(response);
+  } else {
+    console.log(res.statusCode);
   }
-
-
-  
-  // res.send(removeExcessJson(data));
-
 });
 
 module.exports = router;
