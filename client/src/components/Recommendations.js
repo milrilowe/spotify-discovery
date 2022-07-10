@@ -4,8 +4,7 @@ import Track from './Track'
 
 
 
-const Recommendations = ({ recommendations, onClick }) => {
-    
+const Recommendations = ({ recommendations, onClick, onAdd }) => {
     let player = new Audio('');
     if (recommendations) {
         recommendations = recommendations.map((track) => {
@@ -27,6 +26,7 @@ const Recommendations = ({ recommendations, onClick }) => {
                                         player.src = '';
                                         onClick(track);
                                     }}
+                                    onAdd = {event => {onAdd(track, event)}}
                                 />
                         ))}
                     </Card>

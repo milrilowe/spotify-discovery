@@ -13,6 +13,7 @@ const Dashboard = ( { access_token, refresh_token }) => {
     const [searchResults, setSearchResults] = useState();
     const [currentSong, setCurrentSong] = useState();
     const [recommendations, setRecommendations] = useState();
+    
 
     // This is drilled to the Searchbar and the Searchbar will call it so we can change the state so that we can re-render SearchResults
     const onSearch = (query) => {
@@ -24,6 +25,12 @@ const Dashboard = ( { access_token, refresh_token }) => {
         setCurrentSong(song);
         setSearchResults(null);
     }  
+
+    //
+    const onAdd = (song, event) => {
+        event.stopPropagation();
+        console.log('added');
+    }
 
     //When the current song changes, we need to set recommended songs
     useEffect(() => {
@@ -53,26 +60,27 @@ const Dashboard = ( { access_token, refresh_token }) => {
     }, [query]);
 
     return (
-        <div className = "dashboard" onclick = {null}>
+        <div className = "dashboard" onClick = {null}>
 
-            <Container>
+        <Container className = "m-0" style = {{display: "flex"}}>
+            <Container className = "m-1" style = {{maxWidth: "400px"}}>
                 <Searchbar onSearch = {onSearch}/>
                 <SearchResults searchResults = {searchResults} onClick = {onClick}/>
+                <Recommendations recommendations = {recommendations} onClick = {onClick} onAdd ={onAdd} />
             </Container>
 
-            <Container>
 
-                <Recommendations recommendations = {recommendations} onClick = {onClick} />
+            <CurrentSong currentSong = {currentSong} />
 
-                <Container>
-                    <CurrentSong currentSong = {currentSong} />
-                </Container>
+        </Container>
+        
+        <Container className = "mb-2" align="center" style={{position:"absolute", bottom:"0"}}>
+        <WebPlayback access_token = {access_token} currentSong = {currentSong} style/>
+        </Container>
 
-                {/* <Container className = "mb-2" align="center" style={{position:"absolute", bottom:"0"}}>
-                    <WebPlayback access_token = {access_token} currentSong = {currentSong} style/>
-                </Container> */}
 
-            </Container>
+
+
         </div>
     )
 }

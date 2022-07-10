@@ -1,8 +1,9 @@
 import { Container, Card } from "react-bootstrap"
 import { useState, useEffect} from 'react'
+import Add from './Add'
 
 
-const Track = ({ track, onClick, onHover, unHover }) => {
+const Track = ({ track, onClick, onHover, unHover, onAdd }) => {
 
     const songName = track.name;
     const artist = track.artist;
@@ -28,7 +29,10 @@ const Track = ({ track, onClick, onHover, unHover }) => {
 
     return( 
             <Card 
-            style={{display: 'flex', flexDirection: 'row', width:'100%'}} onClick = {() => onClick(track)}
+            style={{display: 'flex', flexDirection: 'row', width:'100%'}} onClick = {e => {
+                onClick(track)
+                e.stopPropogation()
+            }}
             >
                 <Card.Img 
                     src = {image} 
@@ -51,6 +55,7 @@ const Track = ({ track, onClick, onHover, unHover }) => {
                         {artist}
                     </Card.Text>
                 </Container>
+                <Add onAdd = {(event) => {onAdd(track, event)}}/>
             </Card>
 
     )

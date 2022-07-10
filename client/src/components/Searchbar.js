@@ -4,7 +4,7 @@ import { useState, useEffect} from 'react'
 const Searchbar = ({ search, onSearch }) => {
 
     return (
-        <Container className = "mt-3">
+        <Container className = "mt-0">
             <Form.Control
                 className = "searchBar"
                 type="search"
