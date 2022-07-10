@@ -26,7 +26,7 @@ const Recommendations = ({ recommendations, onClick, onAdd }) => {
                                         player.src = '';
                                         onClick(track);
                                     }}
-                                    onAdd = {event => {onAdd(track, event)}}
+                                    onAdd = {() => {onAdd(track)}}
                                 />
                         ))}
                     </Card>

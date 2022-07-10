@@ -13,7 +13,8 @@ const Dashboard = ( { access_token, refresh_token }) => {
     const [searchResults, setSearchResults] = useState();
     const [currentSong, setCurrentSong] = useState();
     const [recommendations, setRecommendations] = useState();
-    
+    const [rootNode, setRootNode] = useState();
+    const [currentNode, setCurrentNode] = useState();
 
     // This is drilled to the Searchbar and the Searchbar will call it so we can change the state so that we can re-render SearchResults
     const onSearch = (query) => {
@@ -24,12 +25,23 @@ const Dashboard = ( { access_token, refresh_token }) => {
     const onClick = (song) => {
         setCurrentSong(song);
         setSearchResults(null);
-    }  
+        const node = {
+            id : song.id,
+            preview : song.preview,
+            img : song.imgSm.url,
+            height : song.imgSm.height,
+            width : song.imgSm.width,
+            children : []
+        }
+
+        setRootNode(node);
+    }
+
+
 
     //
-    const onAdd = (song, event) => {
-        event.stopPropagation();
-        console.log('added');
+    const onAdd = (track) => {
+        //console.log(track.name);
     }
 
     //When the current song changes, we need to set recommended songs
@@ -58,6 +70,15 @@ const Dashboard = ( { access_token, refresh_token }) => {
         return () => (cancel = true)
 
     }, [query]);
+
+    useEffect(() => {
+        return rootNode ? () => {
+            rootNode.children.push(recommendations[1])
+            console.log(rootNode)
+        } : () => {}
+        
+        
+    }, [recommendations])
 
     return (
         <div className = "dashboard" onClick = {null}>

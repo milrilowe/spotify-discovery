@@ -4,7 +4,6 @@ import Add from './Add'
 
 
 const Track = ({ track, onClick, onHover, unHover, onAdd }) => {
-
     const songName = track.name;
     const artist = track.artist;
     const image = track.imgSm.url;
@@ -29,9 +28,9 @@ const Track = ({ track, onClick, onHover, unHover, onAdd }) => {
 
     return( 
             <Card 
-            style={{display: 'flex', flexDirection: 'row', width:'100%'}} onClick = {e => {
+            style={{display: 'flex', flexDirection: 'row', width:'100%'}} onClick = {(event) => {
+                //event.stopPropagation();
                 onClick(track)
-                e.stopPropogation()
             }}
             >
                 <Card.Img 
@@ -55,7 +54,10 @@ const Track = ({ track, onClick, onHover, unHover, onAdd }) => {
                         {artist}
                     </Card.Text>
                 </Container>
-                <Add onAdd = {(event) => {onAdd(track, event)}}/>
+                <Add onClick = {() => { 
+                    console.log("Hi")                   
+                    onAdd(track);
+                }}/>
             </Card>
 
     )
