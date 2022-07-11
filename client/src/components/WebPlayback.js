@@ -92,11 +92,9 @@ function WebPlayback({ access_token, currentSong }) {
 
     return (
             <Container>
-                <Container>{currentSong ? currentSong.name : ''}</Container>
                 <Container onClick = {() => {
                     play_song(`spotify:track:${currentSong.id}`);
-                }}>Play
-
+                }}>{currentSong ? 'Play' : ''}
                 </Container>
             </Container>
 

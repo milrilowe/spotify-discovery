@@ -1,4 +1,4 @@
-const Tree = () => {
+const Tree = ({rootNode, currentNode}) => {
     
 }
 

@@ -2,3 +2,13 @@
     padding-left: 0;
     
 }
+
+.track.currentSong {
+    background-color: rgb(124, 124, 124);
+}
+
+.track:hover {
+    background-color: rgb(124, 124, 124);
+    cursor:pointer;
+}
+

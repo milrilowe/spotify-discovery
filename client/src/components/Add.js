@@ -1,12 +1,21 @@
 import { GrFormAdd } from 'react-icons/gr'
 
-const Add = () => {
+const Add = ({onAdd, track, isSearch}) => {
 
-    
-
-    return (
-        <GrFormAdd style = {{cursor: "pointer"}}/>
-    )
+    if(isSearch) {
+        return
+    } else {
+        return (
+            <GrFormAdd style = {{cursor: "pointer"}}
+                        onClick = {(event) => {
+                            event.stopPropagation();
+                            onAdd(track)}}
+                        onDoubleClick = {(event) => {
+                                    event.stopPropagation();
+                        }}
+                />
+        )
+    }
 }
 
 export default Add

@@ -3,8 +3,7 @@ import { useState, useEffect} from 'react'
 import Track from './Track'
 
 
-const SearchResults = ({ searchResults, onClick }) => {
-
+const SearchResults = ({ searchResults, handleSetCurrentSong }) => {
     
     let results;
 
@@ -22,7 +21,7 @@ const SearchResults = ({ searchResults, onClick }) => {
                 <Container style = {{position: "absolute", zIndex:"2"}}>
                     <Card style ={{maxHeight: "640px", overflow:"auto"}}>
                         {results?.map((track) => (
-                                <Track track = {track} onClick = {onClick}/>
+                                <Track track = {track} handleSetCurrentSong = {handleSetCurrentSong} isSearch = {true}/>
                         ))}
                     </Card>
                 </Container>
