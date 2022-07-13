@@ -127,7 +127,7 @@ router.get('/callback', function(req, res) {
     }
   })
 
-  console.log(response.status);
+
 
   if(response.status == 200) {
     

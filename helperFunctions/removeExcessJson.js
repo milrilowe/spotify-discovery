@@ -38,8 +38,6 @@ const removeExcessJson =  (data) => {
         trimmedJson = data.tracks.map((track) => json(track));
     }
 
-    console.log(trimmedJson)
-
     return trimmedJson;
 }
 
