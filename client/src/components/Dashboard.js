@@ -32,7 +32,6 @@ const Dashboard = ( { access_token, refresh_token }) => {
     console.log(currentNode);
     console.log('root');
     console.log(rootNode);
-    
 
     // This is drilled to the Searchbar and the Searchbar will call it so we can change the state so that we can re-render SearchResults
     const onSearch = (query) => {
@@ -41,7 +40,6 @@ const Dashboard = ( { access_token, refresh_token }) => {
 
     //This is drilled to Track so when the card is clicked, we set current song
     const handleSetCurrentSong = (track) => {
-        //**********************************************************************This doesn't work at all if we set currentNode by double clicking on node in tree*************************************************************************************** */
         if(currentSong) {
             const node = {
                 track : track,
@@ -75,13 +73,12 @@ const Dashboard = ( { access_token, refresh_token }) => {
             track : track,
             children : []
         }
-
+    
         setRootNode(node);
         setCurrentNode(node);
     }
 
-
-    //Click plus button to add song to children of currentSong
+    //
     const onAdd = (track) => {
         for(let i = 0; i < currentNode.children.length; i++) {
             if(currentNode.children[i].track === track) {
@@ -94,8 +91,12 @@ const Dashboard = ( { access_token, refresh_token }) => {
             children : []
         }
 
+
         currentNode.children.push(node);
-        setCurrentNode(currentNode);
+        //So we re-render the tree
+        setCurrentNode({
+            ...currentNode
+        })
     }
 
     //When we hover over album image, play song (with conditions)
@@ -115,7 +116,6 @@ const Dashboard = ( { access_token, refresh_token }) => {
 
     //Clicking on recommended song plays preview until it is clicked again (or the preview ends)
     const handleSetPreview = (track) => {
-        //If we have clicked on a song while there is not another song selected
         if(selectedPreview !== track) {
             if(previewPlayer.src !== track.preview) {
                 selectedPreview = track;
@@ -130,9 +130,28 @@ const Dashboard = ( { access_token, refresh_token }) => {
         }
     }
 
-    //
-    const handleSetCurrentNode = (node) => {
-        setCurrentNode(node);
+    //Breadth-first search of tree to find the node with track
+    const handleSetCurrentNode = (track) => {
+        let queue = [];
+        queue.push(rootNode);
+        while(queue.length !== 0) {
+            let compare = queue.pop();
+            if(compare.track.id === track.id) {
+
+                setCurrentNode({
+                    track: compare.track,
+                    children: compare.children
+                });
+
+                setCurrentSong(compare.track)
+
+                return;
+            } else {
+                for(let i = 0; i < compare.children.length; i++) {
+                    queue.push(compare.children[i]);
+                }
+            }
+        }
     }
 
 
@@ -185,16 +204,16 @@ const Dashboard = ( { access_token, refresh_token }) => {
                     />
                 </Container>
 
-                <Tree 
-                    rootNode = {rootNode} 
-                    currentNode = {currentNode}
-                    handleSetCurrentNode = {handleSetCurrentNode}
-                    handleSetCurrentSong = {handleSetCurrentSong}
-                    handleOnHover = {handleOnHover}
-                    handleUnHover = {handleUnHover}
-                    handleSetPreview = {handleSetPreview}
-                />
-
+                <Container className="mt-3">
+                    <Tree 
+                        rootNode = {rootNode} 
+                        currentNode = {currentNode}
+                        handleSetCurrentNode = {handleSetCurrentNode}
+                        handleOnHover = {handleOnHover}
+                        handleUnHover = {handleUnHover}
+                        handleSetPreview = {handleSetPreview}
+                    />
+                </Container>
             </Container>
             
             

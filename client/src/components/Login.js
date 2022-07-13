@@ -7,6 +7,7 @@ const Login = () => {
           style={{ minHeight: "100vh" }}
         >
           <a className="btn btn-success btn-lg" href={`./login`}>
+          {/* <a className="btn btn-success btn-lg" href={`http://localhost:3000/login`}> */}
             Login With Spotify
           </a>
         </Container>
