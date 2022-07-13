@@ -10,6 +10,13 @@ import '../App.css'
 import { useState, useEffect } from 'react';
 import { Container } from 'react-bootstrap';
 
+const previewPlayer = new Audio('');
+let selectedPreview;
+previewPlayer.addEventListener("ended", () => {
+    previewPlayer.src = '';
+    selectedPreview = '';
+}, false);
+
 const Dashboard = ( { access_token, refresh_token }) => {
     const [query, setQuery] = useState();
     const [searchResults, setSearchResults] = useState();
@@ -18,8 +25,14 @@ const Dashboard = ( { access_token, refresh_token }) => {
     const [rootNode, setRootNode] = useState();
     const [currentNode, setCurrentNode] = useState();
 
-    let selectedPreview = '';
-    let player = new Audio('');
+    selectedPreview = '';
+    previewPlayer.src = '';
+
+    console.log('current');
+    console.log(currentNode);
+    console.log('root');
+    console.log(rootNode);
+    
 
     // This is drilled to the Searchbar and the Searchbar will call it so we can change the state so that we can re-render SearchResults
     const onSearch = (query) => {
@@ -28,49 +41,100 @@ const Dashboard = ( { access_token, refresh_token }) => {
 
     //This is drilled to Track so when the card is clicked, we set current song
     const handleSetCurrentSong = (track) => {
+        //**********************************************************************This doesn't work at all if we set currentNode by double clicking on node in tree*************************************************************************************** */
+        if(currentSong) {
+            const node = {
+                track : track,
+                children : []
+            }
+
+            let contains = false;
+            let i;
+            for(i = 0; i < currentNode.children.length; i++) {
+                if(currentNode.children[i].track === track) {
+                    contains = true;
+                    break;
+                }
+            }
+
+            if(!contains) {
+                currentNode.children.push(node);
+            }
+        
+            setCurrentNode(currentNode.children[i]);
+        }
+        
+        setCurrentSong(track);
+        setSearchResults(null);
+        previewPlayer.src = '';
+    }
+
+    //Sets root node of tree - only done through searching for new song
+    const handleSetRoot = (track) => {
         const node = {
-            id : track.id,
-            preview : track.preview,
-            img : track.imgSm.url,
-            height : track.imgSm.height,
-            width : track.imgSm.width,
+            track : track,
             children : []
         }
 
-        if(!rootNode) {
-            setRootNode(node);
-            setCurrentNode(node);
-        } else {
-            if(!currentNode.children.includes(node)) {  
-                currentNode.children.push(node)
-            }
-        }
-
-        setCurrentSong(track);
+        setRootNode(node);
         setCurrentNode(node);
-        setSearchResults(null);
-
     }
 
 
-    //
+    //Click plus button to add song to children of currentSong
     const onAdd = (track) => {
         for(let i = 0; i < currentNode.children.length; i++) {
-            if(currentNode.children[i].id === track.id) {
+            if(currentNode.children[i].track === track) {
                 return
             }
         }
         
         const node = {
-            id : track.id,
-            preview : track.preview,
-            img : track.imgSm.url,
-            height : track.imgSm.height,
-            width : track.imgSm.width,
+            track : track,
             children : []
         }
-        currentNode.children.push(node)
+
+        currentNode.children.push(node);
+        setCurrentNode(currentNode);
     }
+
+    //When we hover over album image, play song (with conditions)
+    const handleOnHover = (track) => {
+        if(selectedPreview === '') {
+            previewPlayer.src = track.preview;
+            previewPlayer.play();
+        }
+    }
+
+    //When we stop hovering over album image, stop playing song
+    const handleUnHover = (track) => {
+        if(selectedPreview === '') {
+            previewPlayer.src = '';
+        }
+    }
+
+    //Clicking on recommended song plays preview until it is clicked again (or the preview ends)
+    const handleSetPreview = (track) => {
+        //If we have clicked on a song while there is not another song selected
+        if(selectedPreview !== track) {
+            if(previewPlayer.src !== track.preview) {
+                selectedPreview = track;
+                previewPlayer.src = track.preview;
+                previewPlayer.play()
+            }
+            selectedPreview = track;
+            
+        } else {
+            selectedPreview = '';
+            previewPlayer.src = '';
+        }
+    }
+
+    //
+    const handleSetCurrentNode = (node) => {
+        setCurrentNode(node);
+    }
+
 
     //When the current song changes, we need to set recommended songs
     useEffect(() => {
@@ -99,24 +163,37 @@ const Dashboard = ( { access_token, refresh_token }) => {
 
     }, [query]);
 
-    useEffect(() => {
-        return rootNode ? () => {
-            rootNode.children.push(recommendations[1])
-        } : () => {}
-        
-        
-    }, [recommendations])
+
 
     return (
         <div className = "dashboard" onClick = {null} style = {{display: "felx"}}>
             <Container className = "m-0" style = {{display: "flex"}}>
                 <Container className = "m-1" style = {{maxWidth: "400px"}}>
-                    <Searchbar onSearch = {onSearch}/>
-                    <SearchResults searchResults = {searchResults} handleSetCurrentSong = {handleSetCurrentSong}/>
-                    <Recommendations recommendations = {recommendations} handleSetCurrentSong = {handleSetCurrentSong} onAdd ={onAdd} player = {player} selectedPreview = {selectedPreview} />
+                    <Searchbar 
+                        onSearch = {onSearch}
+                    />
+                    <SearchResults 
+                        searchResults = {searchResults} handleSetCurrentSong = {handleSetCurrentSong}
+                        handleSetRoot = {handleSetRoot}
+                    />
+                    <Recommendations
+                        recommendations = {recommendations} handleSetCurrentSong = {handleSetCurrentSong}
+                        handleOnHover = {handleOnHover}
+                        handleUnHover = {handleUnHover}
+                        handleSetPreview = {handleSetPreview}
+                        onAdd ={onAdd} 
+                    />
                 </Container>
 
-                <Tree rootNode = {rootNode} currentNode = {currentNode}/>
+                <Tree 
+                    rootNode = {rootNode} 
+                    currentNode = {currentNode}
+                    handleSetCurrentNode = {handleSetCurrentNode}
+                    handleSetCurrentSong = {handleSetCurrentSong}
+                    handleOnHover = {handleOnHover}
+                    handleUnHover = {handleUnHover}
+                    handleSetPreview = {handleSetPreview}
+                />
 
             </Container>
             

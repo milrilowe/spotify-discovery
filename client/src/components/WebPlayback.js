@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import {Container, Image } from 'react-bootstrap'
+import Play from './Play'
+import '../App.css'
+
 function WebPlayback({ access_token, currentSong }) {
-    
+    /**
+     * We need to move this to be handled by server
+     */
     useEffect(() => {
         const script = document.createElement("script");
         script.src = "https://sdk.scdn.co/spotify-player.js";
@@ -73,7 +78,6 @@ function WebPlayback({ access_token, currentSong }) {
           };
     }, []);
 
-        
     const play_song = async (uri) => {
         console.log("Changing song");
         let request_answer = await fetch(
@@ -91,11 +95,12 @@ function WebPlayback({ access_token, currentSong }) {
       };
 
     return (
-            <Container>
-                <Container onClick = {() => {
-                    play_song(`spotify:track:${currentSong.id}`);
-                }}>{currentSong ? 'Play' : ''}
-                </Container>
+
+                <Container>
+                  {currentSong ? <div className = "play" onClick = {() => {
+                  play_song(`spotify:track:${currentSong.id}`);
+              }}><Play /></div> : ''}
+
             </Container>
 
     );

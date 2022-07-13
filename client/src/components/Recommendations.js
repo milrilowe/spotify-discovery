@@ -3,9 +3,9 @@ import { useState, useEffect} from 'react'
 import Track from './Track'
 
 
-const Recommendations = ({ recommendations, handleSetCurrentSong, onAdd, player, selectedPreview }) => {
+const Recommendations = ({ recommendations, handleSetCurrentSong, handleOnHover, handleUnHover, handleSetPreview, onAdd }) => {
 
-    player.addEventListener("ended", () => {selectedPreview = ''}, false);
+    
     if (recommendations) {
         recommendations = recommendations.map((track) => {
             return track;
@@ -21,37 +21,17 @@ const Recommendations = ({ recommendations, handleSetCurrentSong, onAdd, player,
                         {recommendations?.map((track) => (
                                 <Track
                                     track = {track} 
-                                    onHover = {((track) => {
-                                        if(selectedPreview === '') {
-                                            selectedPreview = '';
-                                            player.src = track.preview;
-                                            player.play()
-                                        }})}
+                                    onHover = {() => {
+                                        handleOnHover(track);    
+                                    }}
                                     unHover = {() => {
-                                        if(selectedPreview === '') {
-                                            player.src = '';
-                                            selectedPreview = '';
-                                        }
+                                        handleUnHover(track);
                                     }}
                                     handleSetCurrentSong = {() => {
-                                        player.src = '';
                                         handleSetCurrentSong(track)
                                     }}
-                                    handleSetPreview = {() => {
-                                        if(selectedPreview !== track) {
-                                            if(player.src !== track.preview) {
-                                                selectedPreview = track;
-                                                player.src = track.preview;
-                                                player.play()
-                                            }
-                                            selectedPreview = track;
-                                            
-                                        } else {
-                                            selectedPreview = '';
-                                            player.src = '';
-                                        }
-
-                                    }}
+                                    handleSetPreview = {() =>
+                                        handleSetPreview(track)}
                                     onAdd = {onAdd}
                                 />
                         ))}

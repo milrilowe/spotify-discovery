@@ -3,12 +3,11 @@
     
 }
 
-.track.currentSong {
-    background-color: rgb(124, 124, 124);
-}
-
 .track:hover {
     background-color: rgb(124, 124, 124);
     cursor:pointer;
 }
 
+.play:hover {
+    cursor:pointer;
+}

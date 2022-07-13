@@ -4,7 +4,7 @@ import Add from './Add'
 import '../App.css'
 
 
-const Track = ({ track, handleSetPreview, handleSetCurrentSong, onHover, unHover, onAdd, isSearch, isSelected }) => {
+const Track = ({ track, handleSetPreview, handleSetCurrentSong, handleSetRoot, onHover, unHover, onAdd, isSearch, isSelected }) => {
     if(track) {
         const songName = track.name;
         const artist = track.artist;
@@ -15,7 +15,10 @@ const Track = ({ track, handleSetPreview, handleSetCurrentSong, onHover, unHover
         let doubleClick;
 
         if(isSearch) {
-            singleClick = () => handleSetCurrentSong(track)
+            singleClick = () => {
+                handleSetRoot(track)
+                handleSetCurrentSong(track)
+            }
             doubleClick = () => {return}
         } else {
             singleClick = () => {
